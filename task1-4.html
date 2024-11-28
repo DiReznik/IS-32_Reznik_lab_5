@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiple Tasks</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        section {
+            margin-bottom: 40px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        label {
+            font-weight: bold;
+        }
+        input {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>JavaScript Task Solutions</h1>
+
+    <!-- Завдання 1 -->
+    <section>
+        <h2>Task 1: Shipping Cost Calculator</h2>
+        <form id="shippingForm">
+            <label for="country">Country:</label>
+            <input type="text" id="country" name="country" required>
+            <br><br>
+
+            <label for="price">Price of the product (credits):</label>
+            <input type="number" id="price" name="price" required>
+            <br><br>
+
+            <label for="deliveryFee">Delivery fee (credits):</label>
+            <input type="number" id="deliveryFee" name="deliveryFee" required>
+            <br><br>
+
+            <button type="submit">Calculate Shipping</button>
+        </form>
+        <h3>Result:</h3>
+        <p id="shippingResult"></p>
+    </section>
+
+    <!-- Завдання 2 -->
+    <section>
+        <h2>Task 2: Droid Purchase Station</h2>
+        <form id="transactionForm">
+            <label for="quantity">Number of droids:</label>
+            <input type="number" id="quantity" name="quantity" required>
+            <br><br>
+
+            <label for="pricePerDroid">Price per droid (credits):</label>
+            <input type="number" id="pricePerDroid" name="pricePerDroid" required>
+            <br><br>
+
+            <label for="customerCredits">Your available credits:</label>
+            <input type="number" id="customerCredits" name="customerCredits" required>
+            <br><br>
+
+            <button type="submit">Buy Droids</button>
+        </form>
+        <h3>Result:</h3>
+        <p id="transactionResult"></p>
+    </section>
+
+    <!-- Завдання 3 -->
+    <section>
+        <h2>Task 3: Array Merger</h2>
+        <form id="arrayForm">
+            <label for="firstArray">First Array (comma-separated):</label>
+            <input type="text" id="firstArray" name="firstArray" placeholder="e.g., 1,2,3" required>
+            <br><br>
+
+            <label for="secondArray">Second Array (comma-separated):</label>
+            <input type="text" id="secondArray" name="secondArray" placeholder="e.g., 4,5,6" required>
+            <br><br>
+
+            <label for="maxLength">Max Length:</label>
+            <input type="number" id="maxLength" name="maxLength" required>
+            <br><br>
+
+            <button type="submit">Combine Arrays</button>
+        </form>
+        <h3>Result:</h3>
+        <p id="arrayResult"></p>
+    </section>
+
+    <!-- Завдання 4 -->
+    <section>
+        <h2>Task 4: Array Operations</h2>
+        <form id="operationForm">
+            <label for="arrayLength">Enter array length:</label>
+            <input type="number" id="arrayLength" name="arrayLength" required min="2">
+            <br><br>
+
+            <button type="submit">Generate Array</button>
+        </form>
+        <h3>Results:</h3>
+        <p><strong>Generated Array:</strong> <span id="generatedArray"></span></p>
+        <p><strong>Sum between Min and Max:</strong> <span id="sumResult"></span></p>
+        <p><strong>Sorted Array:</strong> <span id="sortedArray"></span></p>
+    </section>
+
+    <script>
+        // Завдання 1
+        function getShippingMessage(country, price, deliveryFee) {
+            const totalPrice = price + deliveryFee;
+            return `Shipping to ${country} will cost ${totalPrice} credits`;
+        }
+
+        document.getElementById('shippingForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const country = document.getElementById('country').value;
+            const price = parseFloat(document.getElementById('price').value);
+            const deliveryFee = parseFloat(document.getElementById('deliveryFee').value);
+
+            const message = getShippingMessage(country, price, deliveryFee);
+            document.getElementById('shippingResult').textContent = message;
+        });
+
+        // Завдання 2
+        function makeTransaction(quantity, pricePerDroid, customerCredits) {
+            const totalPrice = quantity * pricePerDroid;
+            return totalPrice > customerCredits
+                ? "Insufficient funds!"
+                : `You ordered ${quantity} droids worth ${totalPrice} credits!`;
+        }
+
+        document.getElementById('transactionForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const pricePerDroid = parseFloat(document.getElementById('pricePerDroid').value);
+            const customerCredits = parseFloat(document.getElementById('customerCredits').value);
+
+            const message = makeTransaction(quantity, pricePerDroid, customerCredits);
+            document.getElementById('transactionResult').textContent = message;
+        });
+
+        // Завдання 3
+        function makeArray(firstArray, secondArray, maxLength) {
+            const combinedArray = firstArray.concat(secondArray);
+            return combinedArray.length > maxLength
+                ? combinedArray.slice(0, maxLength)
+                : combinedArray;
+        }
+
+        document.getElementById('arrayForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const firstArray = document.getElementById('firstArray').value.split(',').map(Number);
+            const secondArray = document.getElementById('secondArray').value.split(',').map(Number);
+            const maxLength = parseInt(document.getElementById('maxLength').value);
+
+            const resultArray = makeArray(firstArray, secondArray, maxLength);
+            document.getElementById('arrayResult').textContent = `[${resultArray.join(', ')}]`;
+        });
+
+        // Завдання 4
+        function generateArray(length) {
+            return Array.from({ length }, () => Math.floor(Math.random() * 100) - 50);
+        }
+
+        function sumBetweenMinMax(array) {
+            const minIndex = array.indexOf(Math.min(...array));
+            const maxIndex = array.indexOf(Math.max(...array));
+            const start = Math.min(minIndex, maxIndex) + 1;
+            const end = Math.max(minIndex, maxIndex);
+            return array.slice(start, end).reduce((sum, num) => sum + num, 0);
+        }
+
+        function quickSort(array) {
+            if (array.length <= 1) return array;
+            const pivot = array[array.length - 1];
+            const left = array.filter(num => num < pivot);
+            const right = array.filter(num => num > pivot);
+            const middle = array.filter(num => num === pivot);
+            return [...quickSort(left), ...middle, ...quickSort(right)];
+        }
+
+        document.getElementById('operationForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const arrayLength = parseInt(document.getElementById('arrayLength').value);
+            const array = generateArray(arrayLength);
+
+            document.getElementById('generatedArray').textContent = `[${array.join(', ')}]`;
+            document.getElementById('sumResult').textContent = sumBetweenMinMax(array);
+            document.getElementById('sortedArray').textContent = `[${quickSort(array).join(', ')}]`;
+        });
+    </script>
+</body>
+</html>
